@@ -10,9 +10,13 @@
     <div
       class="bg-[var(--color-white)] dark:bg-[var(--color-semi-black)] p-6 rounded-lg shadow-lg w-96 relative border border-[var(--color-black)] dark:border-[var(--color-grey)]"
     >
-      <button @click="closeModal" class="absolute top-2 right-2 text-xl font-bold text-[var(--color-black)] dark:text-[var(--color-white)]">&times;</button>
+      <button @click="closeModal" class="absolute top-2 right-2 text-xl font-bold text-[var(--color-black)] dark:text-[var(--color-white)]">
+        &times;
+      </button>
   
-      <h2 class="text-xl font-semibold text-center mb-4 text-[var(--color-black)] dark:text-[var(--color-white)]">Login / Register</h2>
+      <h2 class="text-xl font-semibold text-center mb-4 text-[var(--color-black)] dark:text-[var(--color-white)]">
+        Login / Register
+      </h2>
       <form @submit.prevent="handleLogin">
         <div class="mb-4">
           <label for="email" class="block text-sm font-medium text-[var(--color-black)] dark:text-[var(--color-white)]">Email:</label>
@@ -46,6 +50,18 @@
             No cerrar sesión
           </label>
         </div>
+        <!-- Checkbox para activar notificaciones -->
+        <div class="mb-4 flex items-center">
+          <input
+            id="activarNotificaciones"
+            type="checkbox"
+            v-model="activarNotificaciones"
+            class="mr-2 w-6 h-6"
+          />
+          <label for="activarNotificaciones" class="text-md text-[var(--color-black)] dark:text-[var(--color-white)]">
+            Activar Notificaciones
+          </label>
+        </div>
         <div class="flex justify-between">
           <button type="button" @click="handleSignUp" class="px-4 py-2 bg-green-500 text-[var(--color-white)] rounded-md shadow-md">
             Register
@@ -56,7 +72,11 @@
         </div>
       </form>
       <div class="text-center mt-4">
-        <a href="#" @click.prevent="handleResetPassword" class="text-sm text-[var(--color-blue-strong)] dark:text-[var(--color-blue-strong)] hover:underline">
+        <a
+          href="#"
+          @click.prevent="handleResetPassword"
+          class="text-sm text-[var(--color-blue-strong)] dark:text-[var(--color-blue-strong)] hover:underline"
+        >
           ¿Olvidaste tu contraseña?
         </a>
       </div>
@@ -80,12 +100,12 @@ import useNotes from "../../composables/useNotes";
 const props = defineProps({
   isModalOpen: Boolean,
 });
-
 const emit = defineEmits(["close"]);
 
 const email = ref("");
 const password = ref("");
-const keepLogged = ref(false); 
+const keepLogged = ref(false);
+const activarNotificaciones = ref(false); // Variable para el checkbox de notificaciones
 const modalContainer = ref(null);
 const { login, loadNotes } = useNotes();
 
@@ -96,9 +116,18 @@ async function handleLogin() {
   }
   try {
     const auth = getAuth();
-    await setPersistence(auth, keepLogged.value ? browserLocalPersistence : browserSessionPersistence);
+    await setPersistence(
+      auth,
+      keepLogged.value ? browserLocalPersistence : browserSessionPersistence
+    );
     await login(email.value, password.value);
-    await loadNotes(); 
+    await loadNotes();
+    
+    // Si el usuario marcó la opción, se guarda la intención de solicitar permiso
+    if (activarNotificaciones.value) {
+      localStorage.setItem("requestNotifications", "true");
+    }
+    
     emit("close");
   } catch (error) {
     if (
@@ -160,17 +189,14 @@ function handleResetPassword() {
     });
 }
 
-watch(
-  () => props.isModalOpen,
-  (newVal) => {
-    if (newVal) {
-      document.addEventListener("keydown", handleEscape);
-      modalContainer.value?.focus();
-    } else {
-      document.removeEventListener("keydown", handleEscape);
-    }
+watch(() => props.isModalOpen, (newVal) => {
+  if (newVal) {
+    document.addEventListener("keydown", handleEscape);
+    modalContainer.value?.focus();
+  } else {
+    document.removeEventListener("keydown", handleEscape);
   }
-);
+});
 
 function handleEscape(event) {
   if (event.key === "Escape") {
