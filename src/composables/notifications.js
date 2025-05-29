@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { obtenerTokenFCM } from "./firebaseMessaging";
 
 const notificationPermission = ref(Notification.permission);
 export const requestNotifications = ref(localStorage.getItem("requestNotifications") === "true");
