@@ -1,5 +1,5 @@
 # Vue 3 + Vite
 
-Github Pages: (https://alexsanlo.github.io/ProyectoFinal-DAW/)
+Github Pages: (https://alexsanlo.github.io/ProyectoFinal-DAW-V2/)
 
 
