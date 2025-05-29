@@ -97,7 +97,7 @@ import {
 } from "firebase/auth";
 
 import useNotes from "../../composables/useNotes";
-import { solicitarPermiso } from '../../App.vue';
+import { solicitarPermiso } from '../../composables/notifications';
 
 const props = defineProps({
   isModalOpen: Boolean,
