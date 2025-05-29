@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="props.isModalOpen" 
+    v-if="props.isModalOpen"
     class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50"
     @keydown.esc="closeModal"
     tabindex="0"
@@ -86,16 +86,18 @@
 
 <script setup>
 import { ref, watch, defineProps, defineEmits } from "vue";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  fetchSignInMethodsForEmail, 
-  sendPasswordResetEmail, 
-  setPersistence, 
-  browserLocalPersistence, 
-  browserSessionPersistence 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+  sendPasswordResetEmail,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence
 } from "firebase/auth";
+
 import useNotes from "../../composables/useNotes";
+import { solicitarPermiso } from '../../App.vue';
 
 const props = defineProps({
   isModalOpen: Boolean,
@@ -105,7 +107,7 @@ const emit = defineEmits(["close"]);
 const email = ref("");
 const password = ref("");
 const keepLogged = ref(false);
-const activarNotificaciones = ref(false); // Variable para el checkbox de notificaciones
+const activarNotificaciones = ref(false); // Variable del checkbox para notificaciones
 const modalContainer = ref(null);
 const { login, loadNotes } = useNotes();
 
@@ -120,12 +122,12 @@ async function handleLogin() {
       auth,
       keepLogged.value ? browserLocalPersistence : browserSessionPersistence
     );
+    
     await login(email.value, password.value);
     await loadNotes();
     
-    // Si el usuario marcó la opción, se guarda la intención de solicitar permiso
     if (activarNotificaciones.value) {
-      localStorage.setItem("requestNotifications", "true");
+      solicitarPermiso();
     }
     
     emit("close");
