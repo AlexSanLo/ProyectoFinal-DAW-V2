@@ -1,6 +1,8 @@
 import { ref } from 'vue';
 
-const notificationPermission = ref(Notification.Permission);
+const notificationPermission = ref(Notification.permission);
+export const requestNotifications = ref(localStorage.getItem("requestNotifications") === "true");
+
 export function solicitarPermiso() {
   Notification.requestPermission().then((permission) => {
     notificationPermission.value = permission;
