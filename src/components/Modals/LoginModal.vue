@@ -50,7 +50,6 @@
             No cerrar sesión
           </label>
         </div>
-        <!-- Checkbox para activar notificaciones -->
         <div class="mb-4 flex items-center">
           <input
             id="activarNotificaciones"

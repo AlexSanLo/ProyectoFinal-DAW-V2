@@ -3,14 +3,6 @@
     <Header />
     <main class="flex-1 flex flex-col">
       <NotesBody />
-      <div v-if="requestNotifications" class="text-center mt-4">
-        <button @click="solicitarPermiso" class="px-4 py-2 bg-blue-600 text-white rounded-md shadow-md">
-          Activar Notificaciones
-        </button>
-      </div>
-      <div v-else-if="notificationPermission === 'denied'" class="text-center mt-4 text-red-600">
-        Las notificaciones están bloqueadas. Revisa la configuración de tu navegador.
-      </div>
     </main>
     <Footer />
   </div>
@@ -30,7 +22,6 @@ const requestNotifications = ref(localStorage.getItem("requestNotifications") ==
 
 onMounted(() => {
   console.log("Estado inicial de requestNotifications:", localStorage.getItem("requestNotifications"));
-  // Listener para mensajes en primer plano de Firebase Messaging
   onMessage(messaging, (payload) => {
     console.log("Mensaje recibido en primer plano:", payload);
   });
