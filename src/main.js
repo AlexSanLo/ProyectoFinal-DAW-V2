@@ -5,7 +5,7 @@ import { getMessaging, getToken } from "firebase/messaging";
 import { messaging } from "./firebase";
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/ProyectoFinal-DAW/firebase-messaging-sw.js')
+  navigator.serviceWorker.register('/ProyectoFinal-DAW-V2/firebase-messaging-sw.js')
     .then((registration) => {
       console.log('Service Worker registrado:', registration);
 
