@@ -14,6 +14,15 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage(function(payload) {
-  console.log("Mensaje recibido en segundo plano:", payload);
+messaging.onBackgroundMessage((payload) => {
+  console.log('[backgroundMessage] Recibida notificación en segundo plano:', payload);
+
+  // Mostrar notificación en la pantalla de notificaciones
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: '/firebase-logo.png',
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
