@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables para modo claro */
+:root {
+  /* Colores */
+  --color-black: #000000;
+  --color-blue: #5d83e8;
+  --color-blue-medium: #95a4f4;
+  --color-blue-soft: #c7d0ff;
+  --color-blue-strong: #0549ff;
+  --color-grey: #d9d9d9;
+  --color-red: #ff0000;
+  --color-semi-black: #222222;
+  --color-white: #ffffff;
+  --color-grey-page: #E8E6E5;
+  --color-yellow: #f6c700;
+
+  /* Colores tipografía o iconos */
+  --color-icons-black: #000000;
+  --color-typography-colors-black: #000000;
+  --color-typography-colors-blue: #5d83e8;
+  --color-typography-colors-blue-medium: #95a4f4;
+  --color-typography-colors-blue-soft: #c7d0ff;
+  --color-typography-colors-blue-strong: #0549ff;
+  --color-typography-colors-grey: #9d9999;
+  --color-typography-colors-white: #ffffff;
+
+  /* Tamaños */
+  --number-icons-height: 1.875rem;
+  --number-icons-width: 1.875rem;
+  --number-typography-interlineado-small: 1.125rem;
+  --number-typography-interlineado-paragraph: 1.5rem;
+  --number-typography-interlineado-h4: 1.75rem;
+  --number-typography-interlineado-h3: 2.75rem;
+  --number-typography-interlineado-h2: 3rem;
+  --number-typography-interlineado-h1: 4.5rem;
+  --number-typography-tamanio-small: 0.875rem;
+  --number-typography-tamanio-paragraph: 1rem;
+  --number-typography-tamanio-h4: 1.25rem;
+  --number-typography-tamanio-h3: 2rem;
+  --number-typography-tamanio-h2: 2.625rem;
+  --number-typography-tamanio-h1: 4.25rem;
+
+  /* Fonts */
+  --string-typography-fonts-family-1: "Domine";
+  --string-typography-fonts-family-2: "Inter";
+  --string-typography-peso-bold: "Bold";
+  --string-typography-peso-extra-light: "ExtraLight";
+  --string-typography-peso-regular: "Regular";
+  --string-typography-peso-semi-bold: "SemiBold";
+
+  --button-text-light: #ffffff;
+}
+
+.note-fade-enter-active, .note-fade-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.note-fade-enter-from {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+}
+.note-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.note-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.note-fade-leave-to {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+}
+
+html, body, #app, * {
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+
