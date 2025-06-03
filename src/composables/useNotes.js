@@ -52,7 +52,9 @@ export default function useNotes() {
       const noteWithUid = { ...note, uid: user.value.uid, favorita: note.favorita ?? false };
       const docRef = await addDoc(collection(db, "notes"), noteWithUid);
       notes.value.push({ id: docRef.id, ...noteWithUid });
-      await guardarRecordatorioEnFirestore(note);
+
+      await guardarRecordatorioEnFirestore(noteWithUid);
+
     } catch (error) {
       alert(error.message);
       throw error;
@@ -75,7 +77,9 @@ export default function useNotes() {
     try {
       await updateDoc(doc(db, "notes", id), note);
       notes.value = notes.value.map((n) => (n.id === id ? { id, ...note } : n));
-      await guardarRecordatorioEnFirestore(note);
+
+      await guardarRecordatorioEnFirestore({ ...note, id });
+
     } catch (error) {
       console.error("Error al actualizar nota:", error.message);
     }

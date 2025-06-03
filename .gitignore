@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Ignorar la clave privada de Firebase
-/src/reminder-backend/serviceAccountKey.json
+reminder-backend/serviceAccountKey.json
