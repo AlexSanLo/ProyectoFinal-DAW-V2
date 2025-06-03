@@ -114,9 +114,10 @@ export default function useNotes() {
     if (diff <= 0) return;
     if (scheduledReminders[note.id]) clearTimeout(scheduledReminders[note.id]);
     scheduledReminders[note.id] = setTimeout(() => {
-      if (Notification.permission === "granted") {
-        new Notification(note.title, { body: note.description || "Recordatorio de nota" });
-      }
+      // COMENTA O ELIMINA ESTO:
+      // if (Notification.permission === "granted") {
+      //   new Notification(note.title, { body: note.description || "Recordatorio de nota" });
+      // }
       delete scheduledReminders[note.id];
     }, diff);
   }
