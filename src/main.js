@@ -6,14 +6,7 @@ import { messaging } from "./firebase";
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/ProyectoFinal-DAW-V2/firebase-messaging-sw.js')
     .then(registration => {
-      Notification.requestPermission()
-        .then(permission => {
-          if (permission === 'granted') {
-            console.log('Permiso concedido para mostrar notificaciones');
-          } else {
-            console.log('Permiso denegado para mostrar notificaciones');
-          }
-        });
+      // Registro exitoso del service worker. No pedir permiso aquí.
     })
     .catch(error => {
       console.error('Error al registrar el servicio worker:', error);
