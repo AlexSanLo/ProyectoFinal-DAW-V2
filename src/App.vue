@@ -26,12 +26,6 @@ const fcmToken = ref("");
 
 onMounted(() => {
   console.log("Estado inicial de requestNotifications:", localStorage.getItem("requestNotifications"));
-  // onMessage(messaging, (payload) => {
-  //   if (Notification.permission === "granted" && payload.notification) {
-  //     const { title, body } = payload.notification;
-  //     new Notification(title, { body });
-  //   }
-  // });
 });
 
 onMounted(async () => {
