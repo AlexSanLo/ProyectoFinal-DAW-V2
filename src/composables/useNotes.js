@@ -11,6 +11,7 @@ import {
   where,
 } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { obtenerTokenFCM } from "./firebaseMessaging";
 
 export default function useNotes() {
   const notes = ref([]);
@@ -51,6 +52,7 @@ export default function useNotes() {
       const noteWithUid = { ...note, uid: user.value.uid, favorita: note.favorita ?? false };
       const docRef = await addDoc(collection(db, "notes"), noteWithUid);
       notes.value.push({ id: docRef.id, ...noteWithUid });
+      await guardarRecordatorioEnFirestore(note);
     } catch (error) {
       alert(error.message);
       throw error;
@@ -73,6 +75,7 @@ export default function useNotes() {
     try {
       await updateDoc(doc(db, "notes", id), note);
       notes.value = notes.value.map((n) => (n.id === id ? { id, ...note } : n));
+      await guardarRecordatorioEnFirestore(note);
     } catch (error) {
       console.error("Error al actualizar nota:", error.message);
     }
@@ -116,4 +119,17 @@ export default function useNotes() {
   }, { deep: true });
 
   return { notes, loadNotes, addNote, login, updateNote, deleteNote, clearNotes };
+}
+
+export async function guardarRecordatorioEnFirestore(note) {
+  if (note.reminder && note.reminder.active && note.reminder.date) {
+    const fcmToken = await obtenerTokenFCM();
+    await addDoc(collection(db, "reminders"), {
+      timestamp: new Date(note.reminder.date).getTime(),
+      title: note.title,
+      description: note.description,
+      fcmToken,
+      sent: false
+    });
+  }
 }
