@@ -8,13 +8,14 @@ firebase.initializeApp({
   projectId: "noteeasy-7080d",
   storageBucket: "noteeasy-7080d.firebaseapp.com",
   messagingSenderId: "982678504604",
-  appId: "1:982678504604:web:efbc601021106951319959",
+  appId: "1:982678504604:web:efbc6010211069513S19959",
   measurementId: "G-4FHPK9T92Y"
 });
 
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
+  alert('[backgroundMessage] Recibida notificación en segundo plano: ' + JSON.stringify(payload));
   console.log('[backgroundMessage] Recibida notificación en segundo plano:', payload);
 
   const notificationTitle = payload.notification.title;
