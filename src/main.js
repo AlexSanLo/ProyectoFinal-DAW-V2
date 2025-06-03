@@ -3,8 +3,10 @@ import './style.css';
 import App from './App.vue';
 import { messaging } from "./firebase";
 
+const swPath = '/firebase-messaging-sw.js';
+
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/ProyectoFinal-DAW-V2/firebase-messaging-sw.js')
+  navigator.serviceWorker.register(swPath)
     .then(registration => {
       // Registro exitoso del service worker. No pedir permiso aquí.
     })
