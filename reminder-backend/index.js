@@ -41,7 +41,7 @@ app.get("/send-reminders", async (req, res) => {
       promises.push(
         admin.messaging().send(message)
           .then(() => {
-            return doc.ref.update({ sent: true });
+            return doc.ref.delete();
           })
       );
     });

@@ -89,6 +89,13 @@ export default function useNotes() {
     try {
       await deleteDoc(doc(db, "notes", id));
       notes.value = notes.value.filter((n) => n.id !== id);
+      // Eliminar recordatorios pendientes asociados a la nota
+      const remindersRef = collection(db, "reminders");
+      const q = query(remindersRef, where("noteId", "==", id), where("sent", "==", false));
+      const snapshot = await getDocs(q);
+      for (const docu of snapshot.docs) {
+        await deleteDoc(docu.ref);
+      }
     } catch (error) {
       console.error("Error al eliminar nota:", error.message);
     }
@@ -128,12 +135,37 @@ export default function useNotes() {
 export async function guardarRecordatorioEnFirestore(note) {
   if (note.reminder && note.reminder.active && note.reminder.date) {
     const fcmToken = await obtenerTokenFCM();
-    await addDoc(collection(db, "reminders"), {
+    if (!note.id) {
+      // Si no hay id de nota, no podemos evitar duplicados
+      await addDoc(collection(db, "reminders"), {
+        timestamp: new Date(note.reminder.date).getTime(),
+        title: note.title,
+        description: note.description,
+        fcmToken,
+        sent: false,
+      });
+      return;
+    }
+    // Buscar y eliminar recordatorios antiguos de la misma nota y token
+    const remindersRef = collection(db, "reminders");
+    const q = query(
+      remindersRef,
+      where("noteId", "==", note.id),
+      where("fcmToken", "==", fcmToken),
+      where("sent", "==", false)
+    );
+    const snapshot = await getDocs(q);
+    for (const docu of snapshot.docs) {
+      await deleteDoc(docu.ref);
+    }
+    // Crear el nuevo recordatorio con noteId
+    await addDoc(remindersRef, {
+      noteId: note.id,
       timestamp: new Date(note.reminder.date).getTime(),
       title: note.title,
       description: note.description,
       fcmToken,
-      sent: false
+      sent: false,
     });
   }
 }
