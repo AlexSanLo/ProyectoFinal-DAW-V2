@@ -8,11 +8,14 @@ export function obtenerTokenFCM() {
     .then((currentToken) => {
       if (currentToken) {
         console.log('¡Token FCM obtenido con éxito!', currentToken);
+        return currentToken;
       } else {
         console.log('No se pudo generar el token, solicita permisos de notificación.');
+        return null;
       }
     })
     .catch((err) => {
       console.error('Error al obtener el token FCM:', err);
+      return null;
     });
 }

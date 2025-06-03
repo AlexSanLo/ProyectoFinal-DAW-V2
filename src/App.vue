@@ -15,16 +15,20 @@ import Header from "./components/Layout/Header.vue";
 import Footer from "./components/Layout/Footer.vue";
 import NotesBody from "./components/Layout/NotesBody.vue";
 import { messaging } from "./firebase";
-import { obtenerTokenFCM } from "./composables/FirebaseMessaging";
+import { obtenerTokenFCM } from "./composables/firebaseMessaging";
 
 const requestNotifications = ref(localStorage.getItem("requestNotifications") === "true");
-
+const fcmToken = ref("");
 
 onMounted(() => {
   console.log("Estado inicial de requestNotifications:", localStorage.getItem("requestNotifications"));
   onMessage(messaging, (payload) => {
     console.log("Mensaje recibido en primer plano:", payload);
   });
+});
+
+onMounted(async () => {
+  fcmToken.value = await obtenerTokenFCM() || "No disponible";
 });
 
 </script>
