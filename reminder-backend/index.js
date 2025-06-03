@@ -20,6 +20,7 @@ app.get("/send-reminders", async (req, res) => {
     const snapshot = await db.collection('reminders')
       .where('timestamp', '<=', now)
       .where('sent', '==', false)
+      .where('processing', '==', false)
       .get();
 
     if (snapshot.empty) {
