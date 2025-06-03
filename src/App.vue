@@ -28,10 +28,11 @@ onMounted(() => {
   console.log("Estado inicial de requestNotifications:", localStorage.getItem("requestNotifications"));
   onMessage(messaging, (payload) => {
     console.log("Mensaje recibido en primer plano:", payload);
-    if (Notification.permission === "granted" && payload.notification) {
-      const { title, body } = payload.notification;
-      new Notification(title, { body });
-    }
+    // NO muestres la notificación aquí, solo haz lógica interna si quieres
+    // if (Notification.permission === "granted" && payload.notification) {
+    //   const { title, body } = payload.notification;
+    //   new Notification(title, { body });
+    // }
   });
 });
 
