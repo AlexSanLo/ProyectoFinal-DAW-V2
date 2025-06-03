@@ -38,11 +38,17 @@ app.get("/send-reminders", async (req, res) => {
         }
       };
 
+      // Marcar como "processing" antes de enviar
       promises.push(
-        admin.messaging().send(message)
-          .then(() => {
-            return doc.ref.delete();
-          })
+        doc.ref.update({ processing: true }).then(() => {
+          return admin.messaging().send(message)
+            .then(() => doc.ref.delete())
+            .catch((err) => {
+              console.error('Error enviando notificación FCM:', err);
+              // Si falla el envío, puedes volver a poner processing: false o loguear el error
+              return doc.ref.update({ processing: false });
+            });
+        })
       );
     });
 
