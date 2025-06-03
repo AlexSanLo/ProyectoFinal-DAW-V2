@@ -1,6 +1,10 @@
 <template>
   <div class="min-h-screen flex flex-col">
     <Header />
+    <div v-if="fcmToken" class="p-4 bg-yellow-100 text-black rounded mb-4">
+      <strong>Token FCM:</strong>
+      <div style="word-break: break-all;">{{ fcmToken }}</div>
+    </div>
     <main class="flex-1 flex flex-col">
       <NotesBody />
     </main>
